@@ -2,7 +2,7 @@
 // Joe Wingbermuehle
 // 2018-03-18
 
-box_height = 137;
+box_height = 136;
 box_width = 120;
 corner_size = 5;
 opening_width = box_width * 0.75;
@@ -15,7 +15,7 @@ module corner(size, height) {
             cube([size, size, height], center = true);
         }
         translate([size / 2, size / 2, height / 2]) {
-            cylinder(height, size / 2, size / 2, center = true, $fn = 20);
+            cylinder(height, size / 2, size / 2, center = true, $fn = 30);
         }
     }
 }

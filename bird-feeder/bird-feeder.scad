@@ -19,7 +19,7 @@ hopper_height = print_height - top_height - hanger_height - wall_width;
 // Radius/width parameters based off the print width.
 top_overhang_radius = 4;
 base_radius = print_width / 2 - top_overhang_radius;          // Radius of the base area
-hopper_radius = base_radius - 30;       // Radius of the hopper (leaves some room for the feed area)
+hopper_radius = base_radius - 40;       // Radius of the hopper (leaves some room for the feed area)
 pole_radius = 10;
 perch_radius = 4;
 
@@ -108,15 +108,31 @@ module base() {
 module top() {
     translate([0, 0, hopper_height]) {
         difference() {
-            cylinder(top_height, base_radius + top_overhang_radius, pole_radius, $fn = top_sides);
-            cylinder(top_height, pole_radius + tolerance * 2, pole_radius + tolerance * 2, $fn = base_sides);
+            cylinder(
+                top_height,
+                base_radius + top_overhang_radius,
+                pole_radius,
+                $fn = top_sides
+            );
+            cylinder(
+                top_height,
+                pole_radius + tolerance * 3,
+                pole_radius + tolerance * 3,
+                $fn = base_sides
+            );
             difference() {
-                cylinder(roof_height_at_hopper - wall_width * 2,
-                    hopper_radius + wall_width, hopper_radius + wall_width, $fn = hopper_sides);
-                cylinder(roof_height_at_hopper - wall_width * 2,
-                    hopper_radius - wall_width * 3,
-                    hopper_radius - wall_width * 3,
-                    $fn = hopper_sides);
+                cylinder(
+                    wall_width * 4,
+                    hopper_radius + wall_width * 5,
+                    hopper_radius + wall_width * 5,
+                    $fn = hopper_sides
+                );
+                cylinder(
+                    wall_width * 4,
+                    hopper_radius - wall_width * 5,
+                    hopper_radius - wall_width * 5,
+                    $fn = hopper_sides
+                );
             }
         }
     }
