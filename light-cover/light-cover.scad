@@ -1,8 +1,8 @@
 
-radius = 80;
+radius = 88;
 wall_width = 1.2;
-lip_radius1 = 50;
-lip_radius2 = 55;
+lip_radius1 = 45;
+lip_radius2 = 50;
 lip_height = 10;
 lip_width = 5;
 
