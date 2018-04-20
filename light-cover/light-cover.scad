@@ -7,6 +7,8 @@ lip_height = 10;
 lip_width = 5;
 
 module dodecahedron(height) {
+    // Dodecahedron model from the OpenSCAD User Manual
+    // https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
     scale([height, height, height]) {
         intersection() {
             cube([2, 2, 1], center = true); 
