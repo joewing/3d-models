@@ -10,11 +10,11 @@ filler_radius = 12;         // Radius of the filler hole
 hole_radius = 1;            // Radius of the holes in the inner pot
 outside_height = 100;       // Height of the outer pot
 lip_height = 10;            // Amount the inner pot sticks over the outer pot.
-pot_height = 20;            // Depth of the outer pot before it starts bending in
+pot_height = 20;            // Depth of the pot before it starts bending in
 sides = 6;                  // Number of sides (3 or more)
 tolerance = 0.8;            // Tolerance between pots
 
-inside_height = outside_height + lip_height - wall_width;
+inside_height = outside_height + lip_height - wall_width - tolerance;
 inside_radius = radius - wall_width - tolerance;
 bottom_radius = inside_radius / 3;
 
@@ -22,9 +22,14 @@ bottom_radius = inside_radius / 3;
 module filler() {
     translate([radius - filler_radius, 0, 0]) {
         difference() {
-            cylinder(inside_height, filler_radius, filler_radius, $fn = sides);
+            cylinder(outside_height + lip_height, filler_radius, filler_radius, $fn = sides);
             translate([0, 0, wall_width]) {
-                cylinder(inside_height, filler_radius - wall_width, filler_radius - wall_width, $fn = sides);
+                cylinder(
+                    outside_height + lip_height,
+                    filler_radius - wall_width,
+                    filler_radius - wall_width,
+                    $fn = sides
+                );
             }
             side_length = 2 * filler_radius * sin(180 / sides);
             translate([0, 0, side_length / 2]) {
@@ -54,7 +59,7 @@ module outside() {
 // Draw the shape for the inner pot.
 module pot_solid(top_size, bottom_size) {
     // Top part
-    translate([0, 0, inside_height - pot_height - wall_width - tolerance]) {
+    translate([0, 0, inside_height - pot_height]) {
         cylinder(pot_height, top_size, top_size, $fn = sides);
     }
     
