@@ -1,6 +1,13 @@
 // Simple Bird Feeder
 // Joe Wingbermuehle
-// 2018-03-13
+// 2018-03-13 <> 2018-04-28
+
+// The part to print:
+//  0 - Top
+//  1 - Base
+//  2 - Hopper
+//  3 - Everything (for debugging)
+part = 3;
 
 // Size of the print area (used to make the feeder as big as possible):
 print_width = 210;
@@ -14,7 +21,7 @@ wall_width = 4 * tolerance;         // Width of walls
 top_height = 50;                    // Height of the roof
 hanger_height = 10;                 // Height of the hanger (amount above the roof).
 base_height = 25;                   // Height of the base
-hopper_height = print_height - top_height - hanger_height - wall_width;
+hopper_height = print_height - top_height - hanger_height - hanger_height / 2 - wall_width;
 
 // Radius/width parameters based off the print width.
 top_overhang_radius = 4;
@@ -52,7 +59,7 @@ module hopper() {
 }
 
 module base() {
-    
+
     // Seed area
     difference() {
         cylinder(base_height, base_radius, base_radius, $fn = base_sides);
@@ -95,18 +102,29 @@ module base() {
     cylinder(base_height, hopper_radius, 1, $fn = base_sides);
     
     // Pole
-    difference() {
-        cylinder(hopper_height + top_height + hanger_height, pole_radius, pole_radius, $fn = base_sides);
-        translate([0, pole_radius, hopper_height + top_height + hanger_height / 2]) {
-            rotate([90, 0, 0]) {
-                cylinder(pole_radius * 2, pole_radius / 4, pole_radius / 4); 
+    cylinder(hopper_height + top_height, pole_radius, pole_radius, $fn = base_sides);
+    translate([0, 0, hopper_height + top_height]) {
+        cylinder(hanger_height / 2, pole_radius, pole_radius / 4, $fn = base_sides);
+    }
+    
+    // Hanger
+    translate([0, 0, hopper_height + top_height + hanger_height - hole_radius]) {
+        translate([-pole_radius / 2, 0, -hanger_height]) {
+            cylinder(hanger_height, pole_radius / 2 - hole_radius, pole_radius / 2 - hole_radius, $fn = 40);
+        }
+        translate([pole_radius / 2, 0, -hanger_height]) {
+            cylinder(hanger_height, pole_radius / 2 - hole_radius, pole_radius / 2 - hole_radius, $fn = 40);
+        }
+        rotate([90, 0, 0]) {
+            rotate_extrude(angle = 90, convexity = 10) {
+                translate([pole_radius / 2, 0]) circle(pole_radius / 2 - hole_radius, $fn = 40);
             }
         }
     }
 }
 
 module top() {
-    translate([0, 0, hopper_height]) {
+    translate([0, 0, hopper_height + wall_width - wall_width * 4]) {
         difference() {
             cylinder(
                 top_height,
@@ -138,6 +156,6 @@ module top() {
     }
 }
 
-//hopper();
-//base();
-top();
+if (part == 0 || part == 3) top();
+if (part == 1 || part == 3) base();
+if (part == 2 || part == 3) hopper();
