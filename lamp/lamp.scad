@@ -83,8 +83,8 @@ module shade() {
         }
     }
     difference() {
-        cylinder(top_size, top_size / 4, top_size / 4);
-        cylinder(top_size, top_size / 4 - wall_width, top_size / 4 - wall_width);
+        cylinder(top_size, top_size / 4, stem_radius);
+        cylinder(top_size, top_size / 4 - wall_width, stem_radius - wall_width);
     }
     translate([0, 0, top_size]) {
         difference() {
