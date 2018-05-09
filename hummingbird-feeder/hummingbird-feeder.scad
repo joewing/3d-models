@@ -6,7 +6,7 @@
 // 0 - top
 // 1 - base
 // 2 - both (for debugging)
-part = 2;
+part = 1;
 
 tank_size = 100;
 hanger_height = 10;
@@ -23,7 +23,7 @@ tube_radius = 2;
 
 thread_depth = 1;
 tolerance = 0.4;
-wall_width = 2 * tolerance;
+wall_width = 3 * tolerance;
 
 
 // Screw threads
@@ -41,7 +41,7 @@ module dodecahedron(height) {
         intersection() {
             cube([2, 2, 1], center = true);
             intersection_for(i = [0 : 4]) {
-                rotate([0, 0, 72*i]) {
+                rotate([0, 0, 72 * i]) {
                     rotate([116.565, 0, 0]) {
                         cube([2, 2, 1], center = true);
                     }
@@ -106,11 +106,15 @@ module feeding_tubes(outside) {
             }
             rotate([0, 0, i * 360 / 5 + 180 / 5]) {
                 translate([0, tube_length - wall_width, 0]) {
-                    translate([0, tolerance * 2, tolerance]) {
-                        if(outside) sphere(inner_radius + tolerance, $fn = 6);
+                    if (outside) {
+                        translate([0, 0, inner_radius + 0.25]) {
+                            dodecahedron(inner_radius * 4);
+                        }
                     }
                     rotate([-45, 0, 0]) {
-                        cylinder(tube_rise + (1 - outside), inner_radius, inner_radius, $fn = 6);
+                        rotate([0, 0, 18]) {
+                            cylinder(tube_rise + (1 - outside), inner_radius, inner_radius, $fn = 5);
+                        }
                     }
                 }
             }
