@@ -32,11 +32,11 @@ module filler() {
                 );
             }
             side_length = 2 * filler_radius * sin(180 / sides);
-            translate([0, 0, side_length / 2]) {
+            translate([0, 0, side_length / 2 - wall_width / 2]) {
                 rotate([0, 90, 0]) {
                     for(i = [0 : sides - 1]) {
                         rotate([i * 360 / sides + 180 / sides, 0, 0]) {
-                            cylinder(filler_radius, side_length / 2 - wall_width / 2, side_length / 2 - wall_width / 2);
+                            cylinder(filler_radius, side_length / 2 - wall_width, side_length / 2 - wall_width);
                         }
                     }
                 }
